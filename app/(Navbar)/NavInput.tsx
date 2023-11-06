@@ -1,7 +1,5 @@
 'use client';
 
-import { useColorMode } from '@chakra-ui/react';
-
 interface ColorScheme {
   [key: string]: {
     bgColor: string;

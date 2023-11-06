@@ -1,7 +1,4 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import AppLogo from './AppLogo';
-import ThemeSwitchButton from './ThemeSwitchButton';
-import NavInput from './NavInput';
 import NavLinks from './NavLinks';
 
 const Header = () => {

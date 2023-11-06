@@ -1,7 +1,7 @@
 'use client';
-import { Box, Flex, Tab, TabList, Tabs } from '@chakra-ui/react';
-import { Link } from '@chakra-ui/next-js';
 import { navLinks } from '@/utils/NavLinks';
+import { Link } from '@chakra-ui/next-js';
+import { Flex } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 
 const NavLinks = () => {
