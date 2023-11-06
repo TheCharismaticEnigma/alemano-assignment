@@ -2,7 +2,7 @@ import ChakraProvider from '@/providers/ChakraProvider';
 import { Box } from '@chakra-ui/react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Header from './(NavComponents)/Header';
+import Header from './(Navbar)/Header';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
