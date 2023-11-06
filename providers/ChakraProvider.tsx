@@ -1,7 +1,6 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-
 import { CacheProvider } from '@chakra-ui/next-js';
 import {
   ChakraProvider as ChakraThemeProvider,
@@ -13,9 +12,8 @@ export function ChakraProvider({ children }: PropsWithChildren) {
   return (
     <CacheProvider>
       <ChakraThemeProvider theme={chakraTheme}>
-        <ColorModeScript
-          initialColorMode={chakraTheme.config.initialColorMode}
-        />
+        <ColorModeScript initialColorMode={'dark'} />
+
         {children}
       </ChakraThemeProvider>
     </CacheProvider>
