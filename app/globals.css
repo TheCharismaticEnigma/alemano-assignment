@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply min-h-screen;
+/* Custom Scrollbar for the apps */
+
+::-webkit-scrollbar {
+  width: 11px;
+  background: rgb(83, 76, 76);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(84, 84, 84);
+  transition: all 100ms ease-out;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(211, 211, 211, 0.6);
 }
