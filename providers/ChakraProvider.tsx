@@ -3,12 +3,21 @@
 import { PropsWithChildren } from 'react';
 
 import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider as ChakraThemeProvider } from '@chakra-ui/react';
+import {
+  ChakraProvider as ChakraThemeProvider,
+  ColorModeScript,
+} from '@chakra-ui/react';
+import { chakraTheme } from '@/utils/ChakraTheme';
 
 export function ChakraProvider({ children }: PropsWithChildren) {
   return (
     <CacheProvider>
-      <ChakraThemeProvider>{children}</ChakraThemeProvider>
+      <ChakraThemeProvider theme={chakraTheme}>
+        <ColorModeScript
+          initialColorMode={chakraTheme.config.initialColorMode}
+        />
+        {children}
+      </ChakraThemeProvider>
     </CacheProvider>
   );
 }

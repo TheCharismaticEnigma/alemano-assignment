@@ -1,6 +1,15 @@
-import { Button } from '@radix-ui/themes';
-import Image from 'next/image';
+'use client';
+
+import { Box, Button, useColorMode } from '@chakra-ui/react';
 
 export default function HomePage() {
-  return <div></div>;
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Box>
+      <Button color="amber" onClick={toggleColorMode}>
+        Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
+      </Button>
+    </Box>
+  );
 }
