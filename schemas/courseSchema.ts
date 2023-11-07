@@ -9,9 +9,21 @@ const syllabusSchema = z.object({
 
 export const CourseSchema = z.object({
   _id: z.string().optional(),
-  title: z.string().trim().min(3).max(255),
-  instructor: z.string().trim().min(3).max(255),
-  description: z.string().trim().min(3).max(500),
+  title: z
+    .string({ required_error: 'Title is required.' })
+    .trim()
+    .min(3, { message: 'Title must be 3 characters long' })
+    .max(255),
+  instructor: z
+    .string({ required_error: 'Instructor is required' })
+    .trim()
+    .min(3, { message: 'Instructor name must be longer.' })
+    .max(255),
+  description: z
+    .string({ required_error: 'Description is required' })
+    .trim()
+    .min(3, { message: 'Description must be longer' })
+    .max(500),
   status: z.enum(['OPEN', 'IN_PROGRESS', 'CLOSED']).default('OPEN'),
   location: z.enum(['ONLINE', 'OFFLINE', 'HYBRID']).default('OFFLINE'),
   isLiked: z.boolean().default(false),
@@ -20,6 +32,7 @@ export const CourseSchema = z.object({
 
   prerequisites: z
     .array(z.string())
+    .optional()
     .default(['JavaScript knowledge', 'React Competence']),
 
   syllabus: z.array(syllabusSchema).default([
@@ -37,4 +50,4 @@ export const CourseSchema = z.object({
   ]),
 });
 
-export type Course = z.infer<typeof CourseSchema>;
+export type CourseInterface = z.infer<typeof CourseSchema>;
