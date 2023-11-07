@@ -38,7 +38,6 @@ const NewCourseForm = () => {
           marginBottom={'3'}
           textAlign={'center'}
           size={'lg'}
-          fontFamily={'cursive'}
           fontWeight={'medium'}
           className="text-purple-300 underline decoration-wavy underline-offset-8"
         >
