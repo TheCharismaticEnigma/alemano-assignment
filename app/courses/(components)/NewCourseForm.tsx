@@ -67,13 +67,13 @@ const NewCourseForm = () => {
           <FormLabel>Prerequisites</FormLabel>
           <Input
             type="text"
-            placeholder="JavaScript, React.js, Next.js"
+            placeholder="JavaScript, React.js, and others delimited with a comma"
             {...inputStyles}
           />
         </FormControl>
 
         <FormControl>
-          <FormLabel>Course Duration ( weeks)</FormLabel>
+          <FormLabel>Course Duration (weeks)</FormLabel>
           <NumberInput
             variant={'filled'}
             defaultValue={1}
