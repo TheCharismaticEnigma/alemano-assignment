@@ -1,11 +1,13 @@
 /* Form, Schema Validation, Form Validation, Axois Post Request */
 'use client';
 
+import { CourseInterface, CourseSchema } from '@/schemas/courseSchema';
 import {
   Box,
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -18,7 +20,11 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
+import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const NewCourseForm = () => {
   const inputStyles = {
@@ -29,68 +35,121 @@ const NewCourseForm = () => {
     autoComplete: 'off',
   };
 
+  const [isLikedCourse, setLikedStatus] = useState(false);
+  const router = useRouter();
+
+  // Form Validation and Submission Logic
+  const {
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    register,
+    reset,
+    getValues,
+  } = useForm<CourseInterface>({
+    resolver: zodResolver(CourseSchema),
+  });
+
+  const onSubmit = handleSubmit(async (data, event) => {
+    try {
+      await axios.post(`/api/courses`, {
+        ...data,
+        isLiked: isLikedCourse,
+      });
+    } catch (error) {
+      throw error;
+    }
+
+    reset();
+    router.push('/');
+    router.refresh();
+  });
+
   return (
     <Box className="max-w-6xl my-6 p-2 mx-auto ">
-      <form className="mx-auto border-2 border-transparent w-full max-w-3xl text-2xl rounded-2xl flex flex-col gap-6 p-6 px-7 bg-gradient-to-tl from-[#212121] to-gray-900 ">
+      <form
+        onSubmit={onSubmit}
+        className="mx-auto border-2 border-transparent w-full max-w-3xl text-2xl rounded-2xl flex flex-col gap-6 p-6 px-7 bg-gradient-to-tl from-[#212121] to-gray-900 "
+      >
         <FormHeading />
 
-        <FormControl>
-          <FormLabel>Course Title</FormLabel>
+        <FormControl isInvalid={errors.title ? true : false}>
+          <FormLabel htmlFor="title">Course Title</FormLabel>
           <Input
             {...inputStyles}
+            {...register('title')}
             type="text"
             placeholder="Course Title"
             required
           />
+
+          {errors.title && (
+            <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Instructor Name</FormLabel>
+        <FormControl isInvalid={errors.instructor ? true : false}>
+          <FormLabel htmlFor="instructor">Instructor Name</FormLabel>
           <Input
+            id="instructor"
+            {...register('instructor')}
             {...inputStyles}
             type="text"
             placeholder="Instructor Name"
             required
           />
+
+          {errors.instructor && (
+            <FormErrorMessage>{errors.instructor.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Description</FormLabel>
+        <FormControl isInvalid={errors.description ? true : false}>
+          <FormLabel htmlFor="description">Description</FormLabel>
           <Textarea
+            id="description"
+            {...register('description')}
             variant={'filled'}
             focusBorderColor="purple.300"
             placeholder="Course Description..."
           />
+
+          {errors.description && (
+            <FormErrorMessage>{errors.description.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl>
-          <FormLabel>Prerequisites</FormLabel>
-          <Input
-            type="text"
-            placeholder="JavaScript, React.js, and others delimited with a comma"
-            {...inputStyles}
-          />
-        </FormControl>
+          <FormLabel htmlFor="duration">Course Duration (weeks)</FormLabel>
 
-        <FormControl>
-          <FormLabel>Course Duration (weeks)</FormLabel>
           <NumberInput
+            id="duration"
             variant={'filled'}
             defaultValue={1}
+            focusBorderColor="purple.300"
             min={1}
             max={53}
-            focusBorderColor="purple.300"
           >
-            <NumberInputField />
+            <NumberInputField
+              {...register('duration', {
+                valueAsNumber: true,
+                min: 1,
+                max: 53,
+              })}
+            />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+
+          {errors.duration && (
+            <FormErrorMessage>{errors.duration.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <Flex gap={'6'} mt={'3'}>
           <Select
+            {...register('status')}
             defaultValue={'OPEN'}
             variant={'filled'}
             focusBorderColor="purple.300"
@@ -102,6 +161,7 @@ const NewCourseForm = () => {
           </Select>
 
           <Select
+            {...register('location')}
             defaultValue={'OFFLINE'}
             variant={'filled'}
             focusBorderColor="purple.300"
@@ -113,7 +173,36 @@ const NewCourseForm = () => {
           </Select>
         </Flex>
 
-        <FormButtonContainer />
+        <Flex
+          width={'fit-content'}
+          alignItems={'center'}
+          gap={'8'}
+          className="p-2 mt-3 "
+        >
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            size={'md'}
+            variant={'outline'}
+            colorScheme="purple"
+          >
+            Add New Course
+          </Button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setLikedStatus(!isLikedCourse);
+            }}
+          >
+            <HeartIcon
+              fill={(isLikedCourse && 'red') || 'none'}
+              color={(isLikedCourse && 'red') || 'purple'}
+              pointerEvents={'none'}
+              width={40}
+            />
+          </button>
+        </Flex>
       </form>
     </Box>
   );
@@ -130,37 +219,6 @@ const FormHeading = () => {
     >
       New Course Details
     </Heading>
-  );
-};
-
-const FormButtonContainer = () => {
-  const [isLikedCourse, setLikedStatus] = useState(false);
-
-  return (
-    <Flex
-      width={'fit-content'}
-      alignItems={'center'}
-      gap={'8'}
-      className="p-2 mt-3 "
-    >
-      <Button size={'md'} variant={'outline'} colorScheme="purple">
-        Add New Course
-      </Button>
-
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setLikedStatus(!isLikedCourse);
-        }}
-      >
-        <HeartIcon
-          fill={(isLikedCourse && 'red') || 'none'}
-          color={(isLikedCourse && 'red') || 'purple'}
-          pointerEvents={'none'}
-          width={40}
-        />
-      </button>
-    </Flex>
   );
 };
 
