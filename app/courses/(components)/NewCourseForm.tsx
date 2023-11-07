@@ -29,20 +29,10 @@ const NewCourseForm = () => {
     autoComplete: 'off',
   };
 
-  const [isLikedCourse, setLikedStatus] = useState(false);
-
   return (
     <Box className="max-w-6xl my-6 p-2 mx-auto ">
       <form className="mx-auto border-2 border-transparent w-full max-w-3xl text-2xl rounded-2xl flex flex-col gap-6 p-6 px-7 bg-gradient-to-tl from-[#212121] to-gray-900 ">
-        <Heading
-          marginBottom={'3'}
-          textAlign={'center'}
-          size={'lg'}
-          fontWeight={'medium'}
-          className="text-purple-300 underline decoration-wavy underline-offset-8"
-        >
-          New Course Details
-        </Heading>
+        <FormHeading />
 
         <FormControl>
           <FormLabel>Course Title</FormLabel>
@@ -123,32 +113,54 @@ const NewCourseForm = () => {
           </Select>
         </Flex>
 
-        <Flex
-          width={'fit-content'}
-          alignItems={'center'}
-          gap={'8'}
-          className="p-2 mt-3 "
-        >
-          <Button size={'md'} variant={'outline'} colorScheme="purple">
-            Add New Course
-          </Button>
-
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setLikedStatus(!isLikedCourse);
-            }}
-          >
-            <HeartIcon
-              fill={(isLikedCourse && 'red') || 'none'}
-              color={(isLikedCourse && 'red') || 'purple'}
-              pointerEvents={'none'}
-              width={40}
-            />
-          </button>
-        </Flex>
+        <FormButtonContainer />
       </form>
     </Box>
+  );
+};
+
+const FormHeading = () => {
+  return (
+    <Heading
+      marginBottom={'3'}
+      textAlign={'center'}
+      size={'lg'}
+      fontWeight={'medium'}
+      className="text-purple-300 underline decoration-wavy underline-offset-8"
+    >
+      New Course Details
+    </Heading>
+  );
+};
+
+const FormButtonContainer = () => {
+  const [isLikedCourse, setLikedStatus] = useState(false);
+
+  return (
+    <Flex
+      width={'fit-content'}
+      alignItems={'center'}
+      gap={'8'}
+      className="p-2 mt-3 "
+    >
+      <Button size={'md'} variant={'outline'} colorScheme="purple">
+        Add New Course
+      </Button>
+
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setLikedStatus(!isLikedCourse);
+        }}
+      >
+        <HeartIcon
+          fill={(isLikedCourse && 'red') || 'none'}
+          color={(isLikedCourse && 'red') || 'purple'}
+          pointerEvents={'none'}
+          width={40}
+        />
+      </button>
+    </Flex>
   );
 };
 
