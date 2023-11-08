@@ -24,8 +24,8 @@ const CourseDetailsPage = async ({ params }: Props) => {
         md: 'repeat(3,1fr)',
       }}
       templateRows={{
-        base: 'repeat(2,1fr)',
-        sm: 'repeat(2,1fr)',
+        base: '1fr 250px',
+        sm: '1fr 250px',
         md: 'repeat(1,1fr)',
       }}
       className="mt-8 p-8 w-full max-w-5xl shadow-sm shadow-indigo-400 rounded-xl mx-auto
