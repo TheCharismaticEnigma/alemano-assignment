@@ -31,6 +31,8 @@ const InstructorSearchAction = () => {
     searchParams.forEach((value, key) => params.append(key, value));
     params.set(criteria, instructor);
 
+    if (instructor === 'all') params.delete(criteria); // get all instructor courses
+
     const queryString = params.size ? `?${params.toString()}` : '';
     router.push(`/courses/${queryString}`);
   };
@@ -49,7 +51,7 @@ const InstructorSearchAction = () => {
         autoCorrect="off"
         focusBorderColor="orange.200"
         borderWidth={'1px'}
-        placeholder="Instructor Name..."
+        placeholder={`Enter 'all' for all instructors `}
         onKeyUp={setSearchParams}
       />
     </InputGroup>

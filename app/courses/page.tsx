@@ -14,15 +14,29 @@ interface Props {
 }
 interface CourseQuery {
   status?: CourseStatus;
+  instructor?: string;
 }
 
 connectToDatabase();
 
 const CourseListPage = async ({ searchParams }: Props) => {
-  let courses: CourseInterface[] = await Course.find();
+  const courses: CourseInterface[] = await Course.find();
 
-  const { status } = searchParams;
-  if (status) courses = await Course.find({ status });
+  const { status, instructor } = searchParams;
+
+  if (status) {
+    const statusFilteredCourses = courses.filter((c) => c.status === status);
+    courses.length = 0;
+    courses.push(...statusFilteredCourses);
+  }
+
+  if (instructor) {
+    const commonInstructorCourses = courses.filter(
+      (c) => c.instructor === instructor
+    );
+    courses.length = 0;
+    courses.push(...commonInstructorCourses);
+  }
 
   return (
     <Flex
