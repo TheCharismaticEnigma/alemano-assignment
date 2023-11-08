@@ -215,7 +215,7 @@ const FormHeading = () => {
       textAlign={'center'}
       size={'lg'}
       fontWeight={'medium'}
-      className="text-purple-300 underline decoration-wavy underline-offset-8"
+      className="text-purple-300"
     >
       New Course Details
     </Heading>
