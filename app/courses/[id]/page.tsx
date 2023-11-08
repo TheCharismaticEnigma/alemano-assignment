@@ -28,8 +28,8 @@ const CourseDetailsPage = async ({ params }: Props) => {
         sm: 'repeat(2,1fr)',
         md: 'repeat(1,1fr)',
       }}
-      className="mt-8 p-8 min-h-screen w-full max-w-5xl shadow-sm shadow-indigo-400 rounded-xl mx-auto
-                   bg-gradient-to-br from-[#212323] to-gray-900"
+      className="mt-8 p-8 w-full max-w-5xl shadow-sm shadow-indigo-400 rounded-xl mx-auto
+                   bg-gradient-to-tr from-[#212323] to-gray-900"
     >
       <GridItem
         colSpan={{
