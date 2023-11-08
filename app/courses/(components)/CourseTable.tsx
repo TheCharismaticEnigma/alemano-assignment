@@ -9,8 +9,9 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import StatusBadge from './StatusBadge';
+import Link from 'next/link';
 
-const IssueTable = ({ courses }: { courses: Course[] }) => {
+const CourseTable = ({ courses }: { courses: Course[] }) => {
   return (
     <TableContainer>
       <Table variant={'simple'} fontSize={'lg'} colorScheme="purple">
@@ -25,7 +26,14 @@ const IssueTable = ({ courses }: { courses: Course[] }) => {
         <Tbody>
           {courses.map(({ _id, title, instructor, status }) => (
             <Tr key={_id!}>
-              <Td> {title} </Td>
+              <Td>
+                <Link
+                  href={`/courses/${_id?.toString()}`}
+                  className={`hover:text-orange-300`}
+                >
+                  {title}
+                </Link>
+              </Td>
               <Td>{instructor}</Td>
               <Td>
                 <StatusBadge status={status} />
@@ -38,4 +46,4 @@ const IssueTable = ({ courses }: { courses: Course[] }) => {
   );
 };
 
-export default IssueTable;
+export default CourseTable;
