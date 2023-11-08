@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
+    "@radix-ui/themes": "^2.0.0",
     "axios": "^1.6.0",
     "framer-motion": "^10.16.4",
     "mongoose": "^8.0.0",
@@ -22,6 +24,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
+    "react-icons": "^4.11.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

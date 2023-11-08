@@ -4,7 +4,7 @@ import Link from 'next/link';
 const NewCourseButton = () => {
   return (
     <Button
-      className="w-fit"
+      className="w-fit max-md:hidden"
       variant="outline"
       size={'md'}
       colorScheme="orange"

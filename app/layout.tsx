@@ -24,7 +24,7 @@ export default function RootLayout({
           <Header />
 
           <main>
-            <Box className="p-2 mx-auto max-w-7xl min-h-screen">{children}</Box>
+            <Box className="p-2 mx-auto max-w-7xl">{children}</Box>
           </main>
         </ChakraProvider>
       </body>

@@ -1,5 +1,7 @@
 import { Flex, Box } from '@chakra-ui/react';
 import NewCourseButton from './NewCourseButton';
+import StatusSelectAction from './StatusSelectAction';
+import InstructorSearchAction from './InstructorSearchAction';
 
 const ActionContainer = () => {
   return (
@@ -11,8 +13,9 @@ const ActionContainer = () => {
     >
       <NewCourseButton />
 
-      <Box>Instructor Sort Select </Box>
-      <Box>Status Sort Select</Box>
+      <InstructorSearchAction />
+
+      <StatusSelectAction />
     </Flex>
   );
 };
