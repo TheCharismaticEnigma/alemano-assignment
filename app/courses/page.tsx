@@ -7,11 +7,22 @@ import ActionContainer from './(components)/ActionContainer';
 
 // Route Handlers are only meant to call from client comps.
 // In server comps, call the DB Directly.
+// Server Comps receive the search Params too.
+
+interface Props {
+  searchParams: CourseQuery;
+}
+interface CourseQuery {
+  status?: CourseStatus;
+}
 
 connectToDatabase();
 
-const CourseListPage = async () => {
-  const courses: CourseInterface[] = await Course.find();
+const CourseListPage = async ({ searchParams }: Props) => {
+  let courses: CourseInterface[] = await Course.find();
+
+  const { status } = searchParams;
+  if (status) courses = await Course.find({ status });
 
   return (
     <Flex
