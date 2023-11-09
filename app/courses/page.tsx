@@ -5,6 +5,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import CourseTable from './(components)/CourseTable';
 import ActionContainer from './(components)/ActionContainer';
 import Pagination from './(components)/Pagination';
+import getFilteredCourses from '@/utils/FilteredData';
 
 // Route Handlers are only meant to call from client comps.
 // In server comps, call the DB Directly.
@@ -13,7 +14,7 @@ import Pagination from './(components)/Pagination';
 interface Props {
   searchParams: CourseQuery;
 }
-interface CourseQuery {
+export interface CourseQuery {
   status?: CourseStatus;
   instructor?: string;
   pageSize?: string;
@@ -25,34 +26,11 @@ connectToDatabase();
 const CourseListPage = async ({ searchParams }: Props) => {
   const courses: CourseInterface[] = await Course.find();
 
-  const { status, instructor, page = '1', pageSize = '5' } = searchParams;
+  const { page = '1', pageSize = '5' } = searchParams;
 
-  if (status) {
-    const statusFilteredCourses = courses.filter((c) => c.status === status);
-    courses.length = 0;
-    courses.push(...statusFilteredCourses);
-  }
-
-  if (instructor) {
-    const commonInstructorCourses = courses.filter(
-      (c) => c.instructor === instructor
-    );
-    courses.length = 0;
-    courses.push(...commonInstructorCourses);
-  }
-
-  // Filter Based on page Number and pageSize
   const pageNumber = parseInt(page);
   const itemsPerPage = parseInt(pageSize);
-  const startIndex = (pageNumber - 1) * itemsPerPage;
-  const endIndex = Math.min(courses.length, startIndex + itemsPerPage);
-
-  const renderedCourses = courses.slice(startIndex, endIndex);
-
-  if (itemsPerPage > courses.length) {
-    renderedCourses.length = 0;
-    renderedCourses.push(...courses);
-  }
+  const renderedCourses = getFilteredCourses(courses, searchParams);
 
   return (
     <Flex
