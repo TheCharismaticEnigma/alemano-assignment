@@ -51,7 +51,7 @@ const InstructorSearchAction = () => {
         autoCorrect="off"
         focusBorderColor="orange.200"
         borderWidth={'1px'}
-        placeholder={`Enter 'all' for all instructors `}
+        placeholder={`Enter 'all' for all courses `}
         onKeyUp={setSearchParams}
       />
     </InputGroup>

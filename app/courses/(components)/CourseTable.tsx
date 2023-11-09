@@ -1,5 +1,8 @@
 import { CourseInterface as Course } from '@/schemas/courseSchema';
 import {
+  Heading,
+  Button,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -12,6 +15,31 @@ import StatusBadge from './StatusBadge';
 import Link from 'next/link';
 
 const CourseTable = ({ courses }: { courses: Course[] }) => {
+  // CASE: No Courses Match the Filter(s)
+  if (courses.length === 0)
+    return (
+      <Stack spacing={8}>
+        <Heading mt={5} textAlign={'center'} color={'orange.300'}>
+          {`NO COURSES MATCH YOUR FILTERS :( `}
+        </Heading>
+
+        <Button
+          size={'lg'}
+          mx={'auto'}
+          colorScheme="orange"
+          variant={'outline'}
+          width={'fit-content'}
+        >
+          <Link
+            href={'/courses'}
+            className=" w-full h-full flex place-items-center"
+          >
+            View All Courses
+          </Link>
+        </Button>
+      </Stack>
+    );
+
   return (
     <TableContainer>
       <Table variant={'simple'} fontSize={'lg'} colorScheme="purple">
