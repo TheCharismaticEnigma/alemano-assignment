@@ -4,6 +4,7 @@ import { CourseInterface } from '@/schemas/courseSchema';
 import { Box, Flex } from '@chakra-ui/react';
 import CourseTable from './(components)/CourseTable';
 import ActionContainer from './(components)/ActionContainer';
+import Pagination from './(components)/Pagination';
 
 // Route Handlers are only meant to call from client comps.
 // In server comps, call the DB Directly.
@@ -15,6 +16,8 @@ interface Props {
 interface CourseQuery {
   status?: CourseStatus;
   instructor?: string;
+  pageSize?: string;
+  page?: string;
 }
 
 connectToDatabase();
@@ -22,7 +25,7 @@ connectToDatabase();
 const CourseListPage = async ({ searchParams }: Props) => {
   const courses: CourseInterface[] = await Course.find();
 
-  const { status, instructor } = searchParams;
+  const { status, instructor, page = '1', pageSize = '5' } = searchParams;
 
   if (status) {
     const statusFilteredCourses = courses.filter((c) => c.status === status);
@@ -38,6 +41,19 @@ const CourseListPage = async ({ searchParams }: Props) => {
     courses.push(...commonInstructorCourses);
   }
 
+  // Filter Based on page Number and pageSize
+  const pageNumber = parseInt(page);
+  const itemsPerPage = parseInt(pageSize);
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = Math.min(courses.length, startIndex + itemsPerPage);
+
+  const renderedCourses = courses.slice(startIndex, endIndex);
+
+  if (itemsPerPage > courses.length) {
+    renderedCourses.length = 0;
+    renderedCourses.push(...courses);
+  }
+
   return (
     <Flex
       direction={'column'}
@@ -48,12 +64,15 @@ const CourseListPage = async ({ searchParams }: Props) => {
       className=" w-full max-w-5xl shadow-sm shadow-indigo-400 rounded-xl mx-auto
                    bg-gradient-to-br from-[#212323] to-gray-900"
     >
-      {/* Course Action Container = new issue , instructor filter, status filter  */}
       <ActionContainer />
 
-      <CourseTable courses={courses} />
+      <CourseTable courses={renderedCourses} />
 
-      {/* Pagination Component  => pagination buttons + page count options */}
+      <Pagination
+        totalItems={courses.length}
+        currentPage={pageNumber}
+        itemsPerPage={itemsPerPage}
+      />
     </Flex>
   );
 };
