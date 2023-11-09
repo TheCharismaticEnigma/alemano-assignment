@@ -1,10 +1,16 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Tooltip } from '@chakra-ui/react';
 
 const EditCourseButton = () => {
   return (
-    <Button colorScheme="orange" variant="outline">
-      Edit Course
-    </Button>
+    <Tooltip
+      placement="bottom"
+      label="Functionality skipped due to similarity!"
+      fontSize={'md'}
+    >
+      <Button isDisabled={true} colorScheme="orange" variant="outline">
+        Edit Course
+      </Button>
+    </Tooltip>
   );
 };
 
