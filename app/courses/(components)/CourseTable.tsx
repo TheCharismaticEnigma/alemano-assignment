@@ -22,8 +22,29 @@ interface Props {
   searchParams: CourseQuery;
 }
 
+type SortCriteria = 'status' | 'instructor' | 'title';
+
 const CourseTable = ({ courses, searchParams }: Props) => {
   if (courses.length === 0) return <RedirectionComponent />;
+
+  // Order the courses if necessary
+  if (searchParams.orderBy) {
+    const criteria: SortCriteria = searchParams.orderBy as SortCriteria;
+
+    courses.sort((cA, cB) => {
+      if (criteria === 'status') {
+        const statusOrder: CourseStatus[] = ['OPEN', 'IN_PROGRESS', 'CLOSED'];
+        return (
+          statusOrder.indexOf(cA['status']) - statusOrder.indexOf(cB['status'])
+        );
+      }
+
+      const firstValue = cA[criteria];
+      const secondValue = cB[criteria];
+
+      return firstValue.localeCompare(secondValue);
+    });
+  }
 
   return (
     <TableContainer>

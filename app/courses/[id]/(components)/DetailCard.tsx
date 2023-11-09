@@ -4,14 +4,12 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Text,
+  Flex,
   Heading,
   Stack,
   StackDivider,
-  Flex,
-  Tag,
+  Text,
   Tooltip,
-  Badge,
 } from '@chakra-ui/react';
 import { HandThumbDownIcon, HeartIcon } from '@heroicons/react/24/outline';
 
@@ -19,8 +17,16 @@ interface Props {
   course: Course;
 }
 
+type CourseKeys =
+  | 'description'
+  | 'duration'
+  | 'location'
+  | 'status'
+  | 'prerequisites'
+  | 'schedule';
+
 const DetailCard = ({ course }: Props) => {
-  const cardKeys = [
+  const cardKeys: CourseKeys[] = [
     'description',
     'location',
     'duration',
@@ -45,9 +51,10 @@ const DetailCard = ({ course }: Props) => {
 
       <CardBody>
         <Stack divider={<StackDivider />} spacing="5">
-          {cardKeys.map((key) => (
-            <ContentBox key={key} heading={key} content={course[key]} />
-          ))}
+          {cardKeys.map((key) => {
+            const cardContent = course[key] as string;
+            return <ContentBox key={key} heading={key} content={cardContent} />;
+          })}
         </Stack>
       </CardBody>
     </Card>
@@ -88,7 +95,7 @@ const CourseCardHeader = ({ course }: { course: Course }) => {
 
 interface ContentBoxProps {
   heading: string;
-  content: any;
+  content: string;
 }
 const ContentBox = ({ heading, content }: ContentBoxProps) => {
   return (
