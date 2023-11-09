@@ -19,6 +19,7 @@ export interface CourseQuery {
   instructor?: string;
   pageSize?: string;
   page?: string;
+  orderBy?: string;
 }
 
 connectToDatabase();
@@ -27,7 +28,6 @@ const CourseListPage = async ({ searchParams }: Props) => {
   const courses: CourseInterface[] = await Course.find();
 
   const { page = '1', pageSize = '5' } = searchParams;
-
   const pageNumber = parseInt(page);
   const itemsPerPage = parseInt(pageSize);
   const renderedCourses = getFilteredCourses(courses, searchParams);
@@ -44,7 +44,7 @@ const CourseListPage = async ({ searchParams }: Props) => {
     >
       <ActionContainer />
 
-      <CourseTable courses={renderedCourses} />
+      <CourseTable courses={renderedCourses} searchParams={searchParams} />
 
       <Pagination
         totalItems={courses.length}

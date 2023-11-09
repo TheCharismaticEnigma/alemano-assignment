@@ -2,6 +2,7 @@ import { CourseInterface as Course } from '@/schemas/courseSchema';
 import {
   Heading,
   Button,
+  Box,
   Stack,
   Table,
   TableContainer,
@@ -13,41 +14,23 @@ import {
 } from '@chakra-ui/react';
 import StatusBadge from './StatusBadge';
 import Link from 'next/link';
+import { CourseQuery } from '../page';
+import { ArrowLongUpIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
-const CourseTable = ({ courses }: { courses: Course[] }) => {
-  // CASE: No Courses Match the Filter(s)
-  if (courses.length === 0)
-    return (
-      <Stack spacing={8}>
-        <Heading mt={5} textAlign={'center'} color={'orange.300'}>
-          {`NO COURSES MATCH YOUR FILTERS :( `}
-        </Heading>
+interface Props {
+  courses: Course[];
+  searchParams: CourseQuery;
+}
 
-        <Button
-          size={'lg'}
-          mx={'auto'}
-          colorScheme="orange"
-          variant={'outline'}
-          width={'fit-content'}
-        >
-          <Link
-            href={'/courses'}
-            className=" w-full h-full flex place-items-center"
-          >
-            View All Courses
-          </Link>
-        </Button>
-      </Stack>
-    );
+const CourseTable = ({ courses, searchParams }: Props) => {
+  if (courses.length === 0) return <RedirectionComponent />;
 
   return (
     <TableContainer>
       <Table variant={'simple'} fontSize={'lg'} colorScheme="purple">
         <Thead>
           <Tr>
-            <Th fontSize={'xl'}>Course </Th>
-            <Th fontSize={'xl'}>Instructor Name</Th>
-            <Th fontSize={'xl'}>Status</Th>
+            <TableHeaderCell searchParams={searchParams} />
           </Tr>
         </Thead>
 
@@ -72,6 +55,65 @@ const CourseTable = ({ courses }: { courses: Course[] }) => {
       </Table>
     </TableContainer>
   );
+};
+
+// CASE : NO MORE COURSES TO RENDER
+const RedirectionComponent = () => {
+  return (
+    <Stack spacing={8}>
+      <Heading mt={5} textAlign={'center'} color={'orange.300'}>
+        {`NO COURSES MATCH YOUR FILTERS :( `}
+      </Heading>
+
+      <Button
+        size={'lg'}
+        mx={'auto'}
+        colorScheme="orange"
+        variant={'outline'}
+        width={'fit-content'}
+      >
+        <Link
+          href={'/courses'}
+          className=" w-full h-full flex place-items-center"
+        >
+          View All Courses
+        </Link>
+      </Button>
+    </Stack>
+  );
+};
+
+interface TableHeaderCell {
+  label: string;
+  value: string;
+}
+
+const TableHeaderCell = ({ searchParams }: { searchParams: CourseQuery }) => {
+  const cells: TableHeaderCell[] = [
+    { label: 'Course', value: 'title' },
+    { label: 'Instructor Name', value: 'instructor' },
+    { label: 'Status', value: 'status' },
+  ];
+
+  const { orderBy } = searchParams;
+
+  return cells.map(({ label, value }) => (
+    <Th fontSize={'xl'}>
+      <Link
+        href={{
+          query: {
+            ...searchParams,
+            orderBy: value,
+          },
+        }}
+      >
+        {label}
+        {orderBy && orderBy === value && (
+          <ArrowLongUpIcon className="inline-block pb-1" width={15} />
+        )}
+      </Link>
+    </Th>
+  ));
 };
 
 export default CourseTable;
