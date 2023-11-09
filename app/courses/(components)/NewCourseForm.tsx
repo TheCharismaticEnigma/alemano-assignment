@@ -18,6 +18,7 @@ import {
   NumberInputStepper,
   Select,
   Textarea,
+  Tooltip,
 } from '@chakra-ui/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -195,12 +196,18 @@ const NewCourseForm = () => {
               setLikedStatus(!isLikedCourse);
             }}
           >
-            <HeartIcon
-              fill={(isLikedCourse && 'red') || 'none'}
-              color={(isLikedCourse && 'red') || 'purple'}
-              pointerEvents={'none'}
-              width={40}
-            />
+            <Tooltip
+              label={`${isLikedCourse ? 'UNLIKE' : 'LIKE'} COURSE`}
+              placement="right"
+              fontSize="sm"
+            >
+              <HeartIcon
+                fill={(isLikedCourse && 'red') || 'none'}
+                color={(isLikedCourse && 'red') || 'purple'}
+                pointerEvents={'inherit'}
+                width={40}
+              />
+            </Tooltip>
           </button>
         </Flex>
       </form>
