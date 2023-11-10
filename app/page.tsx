@@ -1,11 +1,24 @@
-'use client';
-
-import { Box, Flex, Button, SimpleGrid } from '@chakra-ui/react';
+import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
 import CourseTabs from './(Dashboard)/CourseTabs';
 import Graph from './(Dashboard)/Graph';
 import LatestCourses from './(Dashboard)/LatestCourses';
+import { CourseInterface } from '@/schemas/courseSchema';
+import { connectToDatabase } from '@/dbConfig/dbConfig';
+import { Course } from '@/models/courseModel';
+import getCourseStats from '@/utils/CourseStats';
 
-export default function HomePage() {
+connectToDatabase();
+
+export interface CourseStats {
+  openCount: number;
+  inProgressCount: number;
+  closedCount: number;
+}
+
+export default async function HomePage() {
+  const courses: CourseInterface[] = await Course.find();
+  const courseStats = getCourseStats(courses);
+
   return (
     <SimpleGrid
       columns={{
@@ -17,7 +30,7 @@ export default function HomePage() {
       className="w-full max-w-6xl mx-auto mt-6"
     >
       <Flex border={'1px solid red'} direction={'column'} gap={8}>
-        <CourseTabs />
+        <CourseTabs stats={courseStats} />
         <Graph />
       </Flex>
 
@@ -27,11 +40,3 @@ export default function HomePage() {
     </SimpleGrid>
   );
 }
-
-/*
-  /dashboard => home page 
-  /courses => course list 
-  /courses/id  => individual course details page
-  /courses/new => create new course 
-  /courses/id/update => update existing course details
-*/
