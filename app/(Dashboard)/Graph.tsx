@@ -18,7 +18,7 @@ const Graph = ({ stats }: Props) => {
   ];
 
   return (
-    <Card className="p-2 w-full">
+    <Card className="p-2 rounded-lg w-full shadow-sm shadow-violet-400 bg-gradient-to-tl from-[#121212] via-[#232323] to-gray-900">
       <ResponsiveContainer width={'100%'} height={400}>
         <BarChart data={data}>
           <XAxis dataKey="label" />
