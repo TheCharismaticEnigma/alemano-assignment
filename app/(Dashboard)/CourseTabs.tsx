@@ -29,7 +29,7 @@ const CourseTabs = ({
     <Flex
       direction={{
         base: 'column',
-        sm: 'column',
+        sm: 'row',
         md: 'row',
       }}
       gap={5}
