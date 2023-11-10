@@ -28,7 +28,7 @@ const CourseTabs = ({
   return (
     <Flex gap={5} p={1} justifyContent={'space-between'}>
       {tabs.map(({ label, value, stat }) => (
-        <CourseTabTag label={label} value={value} stat={stat} />
+        <CourseTabTag key={value} label={label} value={value} stat={stat} />
       ))}
     </Flex>
   );
