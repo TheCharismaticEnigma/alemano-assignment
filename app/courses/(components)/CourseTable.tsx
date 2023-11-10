@@ -102,7 +102,7 @@ const TableHeaderCell = ({ searchParams }: { searchParams: CourseQuery }) => {
   const { orderBy } = searchParams;
 
   return cells.map(({ label, value }) => (
-    <Th fontSize={'xl'}>
+    <Th key={label} fontSize={'xl'}>
       <Link
         href={{
           query: {
