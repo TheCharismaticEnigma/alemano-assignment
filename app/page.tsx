@@ -15,28 +15,38 @@ export interface CourseStats {
   closedCount: number;
 }
 
-export default async function HomePage() {
+export default async function HomePageDashboard() {
   const courses: CourseInterface[] = await Course.find();
   const courseStats = getCourseStats(courses);
 
+  return <DashboardGrid courses={courses} courseStats={courseStats} />;
+}
+
+interface DashboardProps {
+  courses: CourseInterface[];
+  courseStats: CourseStats;
+}
+
+const DashboardGrid = ({ courses, courseStats }: DashboardProps) => {
   return (
     <SimpleGrid
       columns={{
         base: 1,
         sm: 1,
-        md: 2,
+        md: 1,
+        lg: 2,
       }}
       spacing={'8'}
-      className="w-full max-w-6xl mx-auto mt-6"
+      className="lg:h-screen w-full max-w-6xl mx-auto mt-6 "
     >
       <Flex alignItems={'center'} direction={'column'} gap={8}>
         <CourseTabs stats={courseStats} />
         <Graph stats={courseStats} />
       </Flex>
 
-      <Box border={'1px solid red'}>
-        <LatestCourses />
-      </Box>
+      <Flex p={1} overflowY={'hidden'}>
+        <LatestCourses courses={courses} />
+      </Flex>
     </SimpleGrid>
   );
-}
+};
