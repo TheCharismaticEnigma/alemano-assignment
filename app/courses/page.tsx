@@ -1,11 +1,13 @@
 import { connectToDatabase } from '@/dbConfig/dbConfig';
 import { Course } from '@/models/courseModel';
 import { CourseInterface } from '@/schemas/courseSchema';
-import { Box, Flex } from '@chakra-ui/react';
-import CourseTable from './(components)/CourseTable';
+import PageSkeleton from '@/skeletons/PageSkeleton';
+import getFilteredCourses from '@/utils/FilteredData';
+import { Flex } from '@chakra-ui/react';
+import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import ActionContainer from './(components)/ActionContainer';
 import Pagination from './(components)/Pagination';
-import getFilteredCourses from '@/utils/FilteredData';
 
 // Route Handlers are only meant to call from client comps.
 // In server comps, call the DB Directly.
@@ -23,6 +25,11 @@ export interface CourseQuery {
 }
 
 connectToDatabase();
+
+const CourseTable = dynamic(() => import('./(components)/CourseTable'), {
+  ssr: true,
+  loading: () => <PageSkeleton />,
+});
 
 const CourseListPage = async ({ searchParams }: Props) => {
   const courses: CourseInterface[] = await Course.find();
@@ -56,3 +63,9 @@ const CourseListPage = async ({ searchParams }: Props) => {
 };
 
 export default CourseListPage;
+
+export const metadata: Metadata = {
+  title: 'Course List Page',
+  description:
+    'This page contains a filterable, sortable & paginated course list',
+};

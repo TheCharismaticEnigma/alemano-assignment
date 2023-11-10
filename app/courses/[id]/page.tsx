@@ -1,9 +1,16 @@
 import { Course } from '@/models/courseModel';
-import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
-import CourseActionContainer from './(components)/CourseActionContainer';
-import DetailCard from './(components)/DetailCard';
 import { CourseInterface } from '@/schemas/courseSchema';
+import PageSkeleton from '@/skeletons/PageSkeleton';
+import { Grid, GridItem } from '@chakra-ui/react';
+import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import CourseActionContainer from './(components)/CourseActionContainer';
+
+const DetailCard = dynamic(() => import('./(components)/DetailCard'), {
+  ssr: true,
+  loading: () => <PageSkeleton />,
+});
 
 // Route Handlers are called only from client comps.
 interface Props {
@@ -49,3 +56,8 @@ const CourseDetailsPage = async ({ params }: Props) => {
 };
 
 export default CourseDetailsPage;
+
+export const metadata: Metadata = {
+  title: 'Course Detail Page',
+  description: 'This page contains all the details regarding a course.',
+};

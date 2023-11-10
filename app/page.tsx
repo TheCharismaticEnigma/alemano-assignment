@@ -1,13 +1,20 @@
-import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
-import CourseTabs from './(Dashboard)/CourseTabs';
-import Graph from './(Dashboard)/Graph';
-import LatestCourses from './(Dashboard)/LatestCourses';
-import { CourseInterface } from '@/schemas/courseSchema';
 import { connectToDatabase } from '@/dbConfig/dbConfig';
 import { Course } from '@/models/courseModel';
+import { CourseInterface } from '@/schemas/courseSchema';
+import PageSkeleton from '@/skeletons/PageSkeleton';
 import getCourseStats from '@/utils/CourseStats';
+import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import CourseTabs from './(Dashboard)/CourseTabs';
+import LatestCourses from './(Dashboard)/LatestCourses';
 
 connectToDatabase();
+
+const Graph = dynamic(() => import('./(Dashboard)/Graph'), {
+  ssr: false,
+  loading: () => <PageSkeleton />,
+});
 
 export interface CourseStats {
   openCount: number;
@@ -49,4 +56,10 @@ const DashboardGrid = ({ courses, courseStats }: DashboardProps) => {
       </Flex>
     </SimpleGrid>
   );
+};
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description:
+    'Display a graph, tabs, and details about recently added courses.',
 };
