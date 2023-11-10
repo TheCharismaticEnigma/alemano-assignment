@@ -63,3 +63,5 @@ export const metadata: Metadata = {
   description:
     'Display a graph, tabs, and details about recently added courses.',
 };
+
+export const revalidate = 0;
