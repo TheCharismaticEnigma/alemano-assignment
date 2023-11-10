@@ -29,9 +29,14 @@ export default async function HomePage() {
       spacing={'8'}
       className="w-full max-w-6xl mx-auto mt-6"
     >
-      <Flex border={'1px solid red'} direction={'column'} gap={8}>
+      <Flex
+        border={'1px solid red'}
+        alignItems={'center'}
+        direction={'column'}
+        gap={8}
+      >
         <CourseTabs stats={courseStats} />
-        <Graph />
+        <Graph stats={courseStats} />
       </Flex>
 
       <Box border={'1px solid red'}>

@@ -26,16 +26,7 @@ const CourseTabs = ({
   ];
 
   return (
-    <Flex
-      direction={{
-        base: 'column',
-        sm: 'row',
-        md: 'row',
-      }}
-      gap={5}
-      p={1}
-      justifyContent={'space-between'}
-    >
+    <Flex gap={5} p={1} justifyContent={'space-between'}>
       {tabs.map(({ label, value, stat }) => (
         <CourseTabTag label={label} value={value} stat={stat} />
       ))}
